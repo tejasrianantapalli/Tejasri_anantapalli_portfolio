@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tejasri Anantapalli - Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: auto;
+            z-index: 1;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            right: 0;
+            padding: 30px 50px;
+            z-index: 100;
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        nav a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #60a5fa;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #60a5fa;
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .resume-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            padding: 10px 25px;
+            border-radius: 25px;
+            color: white !important;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .resume-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+        }
+
+        .resume-btn::after {
+            display: none;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            pointer-events: auto;
+        }
+
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0 10%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .intro-text {
+            font-size: 1.2rem;
+            color: #60a5fa;
+            font-weight: 600;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        h1 {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease 0.2s backwards;
+            color: #f1f5f9;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        .tagline {
+            font-size: 2rem;
+            opacity: 0.8;
+            animation: fadeInUp 1s ease 0.4s backwards;
+            color: #94a3b8;
+            font-weight: 400;
+            margin-bottom: 30px;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            max-width: 600px;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            animation: fadeInUp 1s ease 0.6s backwards;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 20px;
+            animation: fadeInUp 1s ease 0.8s backwards;
+        }
+
+        .cta {
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+            font-weight: 600;
+        }
+
+        .cta:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.5);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            border: 2px solid #60a5fa;
+            color: #60a5fa;
+        }
+
+        section {
+            min-height: 100vh;
+            padding: 120px 10%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            color: #f1f5f9;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            border-radius: 2px;
+            animation: expandLine 0.6s ease-out;
+        }
+
+        @keyframes expandLine {
+            from {
+                width: 0;
+            }
+            to {
+                width: 60px;
+            }
+        }
+
+        /* Experience Section */
+        .experience-grid {
+            display: grid;
+            gap: 40px;
+        }
+
+        .experience-card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 15px;
+            border-left: 4px solid #3b82f6;
+            transition: transform 0.3s, box-shadow 0.3s, border-left-width 0.3s;
+        }
+
+        .experience-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.2);
+            border-left-width: 8px;
+        }
+
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .experience-title {
+            font-size: 1.5rem;
+            color: #60a5fa;
+            font-weight: 600;
+        }
+
+        .experience-company {
+            font-size: 1.3rem;
+            color: #f1f5f9;
+            margin-top: 5px;
+        }
+
+        .experience-date {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .experience-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .experience-card li {
+            color: #cbd5e1;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .experience-card li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: #60a5fa;
+            font-size: 1.2rem;
+        }
+
+        /* Projects Section - Box Style */
+        .project-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .project-category-box {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            padding: 40px 30px;
+            border-radius: 15px;
+            border: 2px solid rgba(59, 130, 246, 0.2);
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-category-box::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 15px;
+            padding: 2px;
+            background: linear-gradient(135deg, transparent, rgba(96, 165, 250, 0.5), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .project-category-box:hover::after {
+            opacity: 1;
+        }
+
+        .project-category-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.15), transparent);
+            transition: left 0.6s;
+        }
+
+        .project-category-box:hover::before {
+            left: 100%;
+        }
+
+        .project-category-box:hover {
+            transform: translateY(-8px);
+            border-color: #60a5fa;
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.3);
+        }
+
+        .project-category-box.active {
+            border-color: #60a5fa;
+            background: rgba(59, 130, 246, 0.15);
+        }
+
+        .category-box-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .project-category-box:hover .category-box-icon {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .category-box-title {
+            font-size: 1.5rem;
+            color: #60a5fa;
+            font-weight: 600;
+            margin-bottom: 10px;
+            transition: color 0.3s;
+        }
+
+        .project-category-box.active .category-box-title {
+            color: #93c5fd;
+        }
+
+        .category-box-subtitle {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            opacity: 1;
+            transition: opacity 0.3s;
+            font-weight: 500;
+        }
+
+        .project-category-box:hover .category-box-subtitle {
+            color: #60a5fa;
+        }
+
+        .projects-display {
+            display: none;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .projects-display.active {
+            display: block;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .project-card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            bottom: -50%;
+            left: -50%;
+            background: linear-gradient(to bottom, rgba(96, 165, 250, 0.1), transparent);
+            transform: rotate(45deg) translateY(-100%);
+            transition: transform 0.6s;
+        }
+
+        .project-card:hover::after {
+            transform: rotate(45deg) translateY(100%);
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.1), transparent);
+            transition: left 0.6s;
+        }
+
+        .project-card:hover::before {
+            left: 100%;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(59, 130, 246, 0.4);
+            border-color: #60a5fa;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .project-icon {
+            font-size: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover .project-icon {
+            transform: rotateY(360deg);
+        }
+
+        .project-date {
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+
+        .project-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            color: #f1f5f9;
+            transition: color 0.3s;
+        }
+
+        .project-card:hover h3 {
+            color: #93c5fd;
+        }
+
+        .project-card p {
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin-bottom: 18px;
+            font-size: 0.95rem;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tech-tag {
+            background: rgba(59, 130, 246, 0.1);
+            color: #60a5fa;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .tech-tag:hover {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: #60a5fa;
+            transform: translateY(-2px);
+        }
+
+        /* Skills Section */
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .skill-category {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .skill-category h3 {
+            color: #60a5fa;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill-item {
+            background: rgba(59, 130, 246, 0.1);
+            color: #cbd5e1;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .skill-item:hover {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            transform: scale(1.05);
+        }
+
+        /* Contact Section */
+        .contact-content {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .contact-content p {
+            font-size: 1.2rem;
+            color: #cbd5e1;
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #60a5fa;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: transform 0.3s, color 0.3s;
+            padding: 12px 24px;
+            border-radius: 10px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .contact-link:hover {
+            transform: translateY(-5px) scale(1.05);
+            color: #93c5fd;
+            background: rgba(59, 130, 246, 0.2);
+            border-color: #60a5fa;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .contact-link span {
+            font-size: 1.4rem;
+            transition: transform 0.3s;
+        }
+
+        .contact-link:hover span {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .bird-interaction-hint {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(59, 130, 246, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            z-index: 3;
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            color: #93c5fd;
+            font-weight: 500;
+            animation: floatHint 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes floatHint {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+            .tagline {
+                font-size: 1.5rem;
+            }
+            nav {
+                padding: 20px;
+                gap: 15px;
+            }
+            section {
+                padding: 80px 5%;
+            }
+            .bird-interaction-hint {
+                font-size: 0.85rem;
+                padding: 12px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+    
+    <nav>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="bird-interaction-hint">
+         Move your cursor to play with the light waves ✨
+    </div>
+
+    <div class="content">
+        <header>
+            <div class="intro-text">Hi, my name is</div>
+            <h1>Tejasri Anantapalli</h1>
+            <p class="tagline">Software Engineer • UX Designer • ML Enthusiast</p>
+            <p class="hero-description">
+                I'm a Computer Science student at GITAM University who bridges design and development. 
+                From crafting intuitive user experiences in Figma to building AI-powered systems and interactive web applications, 
+                I love creating products that are both beautiful and intelligent.
+            </p>
+            <div class="cta-group">
+                <button class="cta" onclick="document.querySelector('#projects').scrollIntoView({behavior: 'smooth'})">
+                    View My Work
+                </button>
+                <button class="cta cta-secondary" onclick="document.querySelector('#contact').scrollIntoView({behavior: 'smooth'})">
+                    Get In Touch
+                </button>
+            </div>
+        </header>
+
+        <section id="experience">
+            <h2>Work Experience</h2>
+            <div class="experience-grid">
+                <div class="experience-card">
+                    <div class="experience-header">
+                        <div>
+                            <div class="experience-title">Software Engineering Intern</div>
+                            <div class="experience-company">Intel</div>
+                        </div>
+                        <div class="experience-date">May 2025 – Jul 2025</div>
+                    </div>
+                    <ul>
+                        <li>Engineered an AI-powered labelling and quality verification system, increasing product identification accuracy by 90% and eliminating manual errors in industrial workflows</li>
+                        <li>Deployed AI/ML models including YOLOv5, ResNet, and MobileNet using PyTorch and TensorFlow to automate label inspection and defect detection with over 95% accuracy</li>
+                        <li>Designed an interactive Streamlit UI for on-demand batch-wise querying and result visualization, enhancing audit efficiency by 98%</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2>My Work</h2>
+            <p style="text-align: center; font-size: 1.1rem; color: #94a3b8; margin-bottom: 50px; max-width: 700px; margin-left: auto; margin-right: auto;">
+                👆 Click on a category below to explore my projects
+            </p>
+            
+            <!-- Category Selection Boxes -->
+            <div class="project-categories">
+                <div class="project-category-box" onclick="showProjects('design')">
+                    <span class="category-box-icon">🎨</span>
+                    <h3 class="category-box-title">UX & Design</h3>
+                    <p class="category-box-subtitle">Click to view projects</p>
+                </div>
+
+                <div class="project-category-box" onclick="showProjects('aiml')">
+                    <span class="category-box-icon">🤖</span>
+                    <h3 class="category-box-title">AI & ML</h3>
+                    <p class="category-box-subtitle">Click to view projects</p>
+                </div>
+
+                <div class="project-category-box" onclick="showProjects('web')">
+                    <span class="category-box-icon">💻</span>
+                    <h3 class="category-box-title">Web Dev</h3>
+                    <p class="category-box-subtitle">Click to view projects</p>
+                </div>
+
+                <div class="project-category-box" onclick="showProjects('other')">
+                    <span class="category-box-icon">⚙️</span>
+                    <h3 class="category-box-title">Other</h3>
+                    <p class="category-box-subtitle">Click to view projects</p>
+                </div>
+            </div>
+
+            <!-- UX & Design Projects -->
+            <div id="design-projects" class="projects-display">
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div class="project-icon">💰</div>
+                            <div class="project-date">Jan 2025 – Feb 2025</div>
+                        </div>
+                        <h3>Money Tracking App</h3>
+                        <p>Designed a slick financial dashboard in Figma that makes managing money actually fun! Interactive charts and 6+ automated reports help users track expenses and plan better.</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Figma</span>
+                            <span class="tech-tag">UX Design</span>
+                            <span class="tech-tag">Prototyping</span>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div class="project-icon">🧪</div>
+                            <div class="project-date">Jan 2024 – Feb 2024</div>
+                        </div>
+                        <h3>Virtual Chemistry Lab</h3>
+                        <p>Built an immersive 3D chemistry experience where students can drag-and-drop chemicals and watch reactions happen. Made learning chemistry 50% more engaging!</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Blender</span>
+                            <span class="tech-tag">Unity</span>
+                            <span class="tech-tag">AR/VR</span>
+                            <span class="tech-tag">3D Design</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI/ML Projects -->
+            <div id="aiml-projects" class="projects-display">
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div class="project-icon">⚡</div>
+                            <div class="project-date">May 2025 – Jul 2025</div>
+                        </div>
+                        <h3>AI Quality Verification System @ Intel</h3>
+                        <p>Engineered an AI-powered system that catches product defects with 95% accuracy using YOLOv5, ResNet, and MobileNet. No more manual errors!</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">PyTorch</span>
+                            <span class="tech-tag">TensorFlow</span>
+                            <span class="tech-tag">YOLOv5</span>
+                            <span class="tech-tag">Streamlit</span>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div class="project-icon">🥗</div>
+                            <div class="project-date">Mar 2025</div>
+                        </div>
+                        <h3>Calorie Prediction & Meal Recommender</h3>
+                        <p>Built an ML system that predicts your daily calorie intake, detects nutrient deficiencies, and suggests personalized meals. Uses regression, classification, and clustering to keep you healthy!</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Machine Learning</span>
+                            <span class="tech-tag">Scikit-learn</span>
+                            <span class="tech-tag">Data Science</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Web Development Projects -->
+            <div id="web-projects" class="projects-display">
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div class="project-icon">🎫</div>
+                            <div class="project-date">Aug 2024 – Sept 2025</div>
+                        </div>
+                        <h3>Ticket Booking Application</h3>
+                        <p>Created a smooth ticket booking experience with real-time seat selection and dynamic pricing. Users can see live availability and book instantly—no double bookings ever!</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">HTML/CSS</span>
+                            <span class="tech-tag">Real-time</span>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div class="project-icon">🌐</div>
+                            <div class="project-date">May 2024 – June 2024</div>
+                        </div>
+                        <h3>Social Network System</h3>
+                        <p>Built a Java-based social network that handles 100+ user interactions. Features friend management, connection tracking, and all the good stuff!</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Java</span>
+                            <span class="tech-tag">OOP</span>
+                            <span class="tech-tag">Data Structures</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other Projects -->
+            <div id="other-projects" class="projects-display">
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div class="project-icon">🔐</div>
+                            <div class="project-date">Apr 2025</div>
+                        </div>
+                        <h3>Secure Communication System</h3>
+                        <p>Developed a hybrid encryption system combining RSA and AES for ultra-secure data transmission. Because your messages deserve military-grade protection!</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">RSA</span>
+                            <span class="tech-tag">AES</span>
+                            <span class="tech-tag">Cryptography</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <h2>Skills & Technologies</h2>
+            <div class="skills-container">
+                <div class="skill-category">
+                    <h3>Design & UX</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">Figma</span>
+                        <span class="skill-item">Prototyping</span>
+                        <span class="skill-item">Wireframing</span>
+                        <span class="skill-item">User Testing</span>
+                        <span class="skill-item">Usability</span>
+                        <span class="skill-item">UI/UX Design</span>
+                        <span class="skill-item">Adobe XD</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Programming Languages</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">Python</span>
+                        <span class="skill-item">Java</span>
+                        <span class="skill-item">JavaScript</span>
+                        <span class="skill-item">SQL</span>
+                        <span class="skill-item">C</span>
+                        <span class="skill-item">C++</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>AI/ML & Data Science</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">PyTorch</span>
+                        <span class="skill-item">TensorFlow</span>
+                        <span class="skill-item">YOLOv5</span>
+                        <span class="skill-item">ResNet</span>
+                        <span class="skill-item">MobileNet</span>
+                        <span class="skill-item">Scikit-learn</span>
+                        <span class="skill-item">Machine Learning</span>
+                        <span class="skill-item">Deep Learning</span>
+                        <span class="skill-item">Computer Vision</span>
+                        <span class="skill-item">Data Analysis</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Web Development</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">HTML/CSS</span>
+                        <span class="skill-item">JavaScript</span>
+                        <span class="skill-item">React</span>
+                        <span class="skill-item">Streamlit</span>
+                        <span class="skill-item">Node.js</span>
+                        <span class="skill-item">RESTful APIs</span>
+                        <span class="skill-item">Responsive Design</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>3D & Interactive</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">Blender</span>
+                        <span class="skill-item">Unity</span>
+                        <span class="skill-item">AR/VR</span>
+                        <span class="skill-item">3D Modeling</span>
+                        <span class="skill-item">Game Design</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Tools & Others</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">Git</span>
+                        <span class="skill-item">GitHub</span>
+                        <span class="skill-item">Cryptography</span>
+                        <span class="skill-item">RSA/AES</span>
+                        <span class="skill-item">OOP</span>
+                        <span class="skill-item">Data Structures</span>
+                        <span class="skill-item">Algorithms</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>Get In Touch</h2>
+            <div class="contact-content">
+                <p>
+                    I'm currently looking for new opportunities and my inbox is always open. 
+                    Whether you have a question or just want to say hi, I'll do my best to get back to you!
+                </p>
+                <div class="contact-links">
+                    <a href="mailto:anantapallitejasri@gmail.com" class="contact-link">
+                        <span>📧</span> Email
+                    </a>
+                    <a href="https://linkedin.com/in/tejasri-anantapalli" target="_blank" class="contact-link">
+                        <span>💼</span> LinkedIn
+                    </a>
+                    <a href="https://github.com/tejasrianantapalli" target="_blank" class="contact-link">
+                        <span>💻</span> GitHub
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Designed & Built by Tejasri Anantapalli</p>
+        </footer>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        const mouse = {
+            x: null,
+            y: null,
+            radius: 120
+        };
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        window.addEventListener('mouseleave', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        class Bird {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 2;
+                this.vy = (Math.random() - 0.5) * 2;
+                this.size = Math.random() * 2.5 + 2;
+                this.maxSpeed = 3;
+                this.perception = 100;
+                this.wingFlap = Math.random() * Math.PI * 2;
+                this.flapSpeed = 0.2;
+            }
+
+            edges() {
+                if (this.x > canvas.width) this.x = 0;
+                else if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                else if (this.y < 0) this.y = canvas.height;
+            }
+
+            align(birds) {
+                let steering = { x: 0, y: 0 };
+                let total = 0;
+                for (let other of birds) {
+                    let d = Math.hypot(this.x - other.x, this.y - other.y);
+                    if (other !== this && d < this.perception) {
+                        steering.x += other.vx;
+                        steering.y += other.vy;
+                        total++;
+                    }
+                }
+                if (total > 0) {
+                    steering.x /= total;
+                    steering.y /= total;
+                    let mag = Math.hypot(steering.x, steering.y);
+                    if (mag > 0) {
+                        steering.x = (steering.x / mag) * 0.1;
+                        steering.y = (steering.y / mag) * 0.1;
+                    }
+                }
+                return steering;
+            }
+
+            cohesion(birds) {
+                let steering = { x: 0, y: 0 };
+                let total = 0;
+                for (let other of birds) {
+                    let d = Math.hypot(this.x - other.x, this.y - other.y);
+                    if (other !== this && d < this.perception) {
+                        steering.x += other.x;
+                        steering.y += other.y;
+                        total++;
+                    }
+                }
+                if (total > 0) {
+                    steering.x /= total;
+                    steering.y /= total;
+                    steering.x -= this.x;
+                    steering.y -= this.y;
+                    let mag = Math.hypot(steering.x, steering.y);
+                    if (mag > 0) {
+                        steering.x = (steering.x / mag) * 0.05;
+                        steering.y = (steering.y / mag) * 0.05;
+                    }
+                }
+                return steering;
+            }
+
+            separation(birds) {
+                let steering = { x: 0, y: 0 };
+                let total = 0;
+                for (let other of birds) {
+                    let d = Math.hypot(this.x - other.x, this.y - other.y);
+                    if (other !== this && d < 30) {
+                        let diff = { x: this.x - other.x, y: this.y - other.y };
+                        if (d > 0) {
+                            diff.x /= d;
+                            diff.y /= d;
+                        }
+                        steering.x += diff.x;
+                        steering.y += diff.y;
+                        total++;
+                    }
+                }
+                if (total > 0) {
+                    steering.x /= total;
+                    steering.y /= total;
+                    let mag = Math.hypot(steering.x, steering.y);
+                    if (mag > 0) {
+                        steering.x = (steering.x / mag) * 0.15;
+                        steering.y = (steering.y / mag) * 0.15;
+                    }
+                }
+                return steering;
+            }
+
+            flee(target) {
+                if (target.x === null || target.y === null) return { x: 0, y: 0 };
+                let d = Math.hypot(this.x - target.x, this.y - target.y);
+                if (d < target.radius && d > 0) {
+                    let steering = {
+                        x: this.x - target.x,
+                        y: this.y - target.y
+                    };
+                    steering.x = (steering.x / d) * 0.6;
+                    steering.y = (steering.y / d) * 0.6;
+                    return steering;
+                }
+                return { x: 0, y: 0 };
+            }
+
+            flock(birds) {
+                let alignment = this.align(birds);
+                let cohesion = this.cohesion(birds);
+                let separation = this.separation(birds);
+                let flee = this.flee(mouse);
+
+                this.vx += alignment.x + cohesion.x + separation.x + flee.x;
+                this.vy += alignment.y + cohesion.y + separation.y + flee.y;
+
+                let speed = Math.hypot(this.vx, this.vy);
+                if (speed > this.maxSpeed) {
+                    this.vx = (this.vx / speed) * this.maxSpeed;
+                    this.vy = (this.vy / speed) * this.maxSpeed;
+                }
+            }
+
+            update(birds) {
+                this.flock(birds);
+                this.x += this.vx;
+                this.y += this.vy;
+                this.wingFlap += this.flapSpeed;
+                this.edges();
+            }
+
+            draw() {
+                let angle = Math.atan2(this.vy, this.vx);
+                let wingOffset = Math.sin(this.wingFlap) * 3;
+                
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(angle);
+
+                // Bird body with glow
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = 'rgba(96, 165, 250, 0.5)';
+                ctx.fillStyle = 'rgba(96, 165, 250, 0.9)';
+                ctx.strokeStyle = 'rgba(147, 197, 253, 0.8)';
+                ctx.lineWidth = 0.5;
+                
+                // Simple V-shape bird
+                ctx.beginPath();
+                ctx.moveTo(this.size * 1.5, 0);
+                ctx.lineTo(-this.size, this.size + wingOffset);
+                ctx.lineTo(-this.size, -this.size - wingOffset);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.shadowBlur = 0;
+                ctx.restore();
+            }
+        }
+
+        const birdsArray = [];
+        const numberOfBirds = 60;
+
+        function init() {
+            birdsArray.length = 0;
+            for (let i = 0; i < numberOfBirds; i++) {
+                birdsArray.push(new Bird());
+            }
+        }
+
+        function animate() {
+            ctx.fillStyle = 'rgba(15, 23, 42, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            for (let bird of birdsArray) {
+                bird.update(birdsArray);
+                bird.draw();
+            }
+            
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+
+        window.addEventListener('resize', () => {
+            init();
+        });
+
+        // Project category switching
+        function showProjects(category) {
+            // Hide all project displays
+            document.querySelectorAll('.projects-display').forEach(display => {
+                display.classList.remove('active');
+            });
+            
+            // Remove active state from all boxes
+            document.querySelectorAll('.project-category-box').forEach(box => {
+                box.classList.remove('active');
+            });
+            
+            // Show selected category
+            const selectedDisplay = document.getElementById(category + '-projects');
+            selectedDisplay.classList.add('active');
+            
+            // Add active state to clicked box
+            event.target.closest('.project-category-box').classList.add('active');
+            
+            // Scroll to the projects display
+            setTimeout(() => {
+                selectedDisplay.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
+        }
+    </script>
+</body>
+</html>
